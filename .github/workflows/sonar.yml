@@ -2,8 +2,11 @@ name: Python CI with SonarCloud
 
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
+      - ankit
   pull_request:
+  workflow_dispatch:  # ✅ This allows manual triggering
 
 jobs:
   sonarcloud:
