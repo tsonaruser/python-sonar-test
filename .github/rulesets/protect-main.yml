@@ -1,0 +1,39 @@
+# .github/rulesets/protect-main.yml
+name: "Protect Main Branch"
+target: branch
+enforcement: active
+
+# This ruleset applies to the main branch
+conditions:
+  ref_name:
+    include:
+      - "refs/heads/main"
+
+rules:
+  # Require pull request before merging
+  - type: required_pull_request_reviews
+    parameters:
+      required_approving_review_count: 1
+      dismiss_stale_reviews_on_push: true
+      require_code_owner_review: true
+
+  # Require status checks to pass before merge
+  - type: required_status_checks
+    parameters:
+      strict_required_status_checks_policy: true
+      required_status_checks:
+        - "build"
+        - "test"
+
+  # Require commits to be signed
+  - type: required_signatures
+
+  # Prevent force pushes
+  - type: restrict_pushes
+    parameters:
+      allowed_usernames: [] # no one can force push
+
+  # Prevent branch deletion
+  - type: restrict_deletions
+    parameters:
+      block_deletions: true
